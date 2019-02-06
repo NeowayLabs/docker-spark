@@ -73,4 +73,9 @@ RUN curl -sL --retry 3 \
 ENV PYTHONPATH $SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.4-src.zip:$PYTHONPATH
 
 WORKDIR $SPARK_HOME
+
+# Cache Spark packages described above.
+ENV APP_PACKAGES="--packages com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.5,org.postgresql:postgresql:9.4.1212"
+RUN spark-submit run-example $APP_PACKAGES example-class | true
+
 CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
